@@ -12,3 +12,45 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Users {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  type      UsersType @default(NORMAL)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  hours     Hours[] // Relação com o modelo Hours
+  approvals Hours[] @relation("ApprovedHours") // Horas aprovadas pelo usuário
+
+  @@map("users")
+}
+
+model Hours {
+  id         String      @id @default(uuid())
+  userId     String
+  date       DateTime
+  startTime  DateTime    @db.Time
+  endTime    DateTime    @db.Time
+  approved   HoursStatus @default(WAITING)
+  approvedBy String? // Campo opcional para o ID do usuário que aprovou
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  user     Users  @relation(fields: [userId], references: [id])
+  approver Users? @relation("ApprovedHours", fields: [approvedBy], references: [id])
+
+  @@map("hours")
+}
+
+enum UsersType {
+  ADMINISTRATOR
+  NORMAL
+}
+
+enum HoursStatus {
+  APPROVED
+  REFUSED
+  WAITING
+}
