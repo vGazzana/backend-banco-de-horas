@@ -14,12 +14,14 @@ datasource db {
 }
 
 model Users {
-  id        String    @id @default(uuid())
-  email     String    @unique
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
   password  String
-  type      UsersType @default(NORMAL)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  type      UsersType  @default(NORMAL)
+  status    UserStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   hours     Hours[] // Relação com o modelo Hours
   approvals Hours[] @relation("ApprovedHours") // Horas aprovadas pelo usuário
@@ -30,7 +32,7 @@ model Users {
 model Hours {
   id         String      @id @default(uuid())
   userId     String
-  date       DateTime
+  date       DateTime    @db.Date
   startTime  DateTime    @db.Time
   endTime    DateTime    @db.Time
   approved   HoursStatus @default(WAITING)
@@ -42,6 +44,11 @@ model Hours {
   approver Users? @relation("ApprovedHours", fields: [approvedBy], references: [id])
 
   @@map("hours")
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
 }
 
 enum UsersType {
