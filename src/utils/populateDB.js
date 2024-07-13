@@ -10,11 +10,13 @@ const populateDatabase = async () => {
     await prisma.users.createMany({
       data: [
         {
+          name: "ADM TESTE",
           email: `adm@adm.com`,
           password: generateHash("admin"),
           type: "ADMINISTRATOR",
         },
         {
+          name: "NORMAL TESTE",
           email: `normal@normal.com`,
           password: generateHash("normal"),
           type: "NORMAL",

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "hours" ALTER COLUMN "date" SET DATA TYPE DATE;
