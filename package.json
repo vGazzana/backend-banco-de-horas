@@ -1,4 +1,15 @@
 {
-  "name": "bancoDeHoras",
-  "packageManager": "yarn@4.2.2"
+  "name": "banco-de-horas",
+  "packageManager": "yarn@4.2.2",
+  "type": "module",
+  "scripts": {
+    "dev": "node --env-file=.env --watch index.js"
+  },
+  "dependencies": {
+    "fast-jwt": "^4.0.1",
+    "fastify": "^4.28.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.16.2"
+  }
 }
