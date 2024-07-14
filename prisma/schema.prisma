@@ -30,7 +30,7 @@ model Users {
 model Hours {
   id         String      @id @default(uuid())
   userId     String
-  date       DateTime
+  date       DateTime    @db.Date
   startTime  DateTime    @db.Time
   endTime    DateTime    @db.Time
   approved   HoursStatus @default(WAITING)

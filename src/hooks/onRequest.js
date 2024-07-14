@@ -10,6 +10,7 @@ const onRequest = async (request, reply) => {
   if (publicRoutes.includes(url)) return;
 
   const authHeader = request.headers.authorization;
+
   if (!authHeader)
     return reply
       .code(401)
@@ -25,7 +26,7 @@ const onRequest = async (request, reply) => {
   if (!jwt.valid)
     return reply.code(401).send({ error: true, message: "Invalid token!" });
 
-  request.user = jwt;
+  request.user = jwt.payload;
 };
 
 export default onRequest;
